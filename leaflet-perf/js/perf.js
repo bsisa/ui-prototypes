@@ -8,6 +8,8 @@ var back = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
 }).addTo(map);
 
+var emptyBack = new L.layerGroup();
+
 
 function removeLayers(perfData) {
     if (perfData.layers != null) {
@@ -73,7 +75,8 @@ function drawObjects(nMarkersSize, nCircleSize, nPlainCircleSize, nPolygonSize) 
 
     var control = L.control.layers(
         {
-            "Background":back
+            "Background":back,
+            "Empty":emptyBack
         },
         {
             "Markers":markerLayerGroup,
