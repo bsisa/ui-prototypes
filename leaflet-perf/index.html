@@ -34,6 +34,7 @@
 
                     <div>Markers half side size <input id="nMarkersSize" type="text" value="10"  oninput="updateTotal()" /> = <input id="nMarkers"  disabled="true" type="text" value="100" />  </div>
                     <div>Circles half side size <input id="nCircleSize" type="text" value="10" oninput="updateTotal()" /> = <input id="nCircles"  disabled="true" type="text" value="100" /> </div>
+                    <div>Plain Circles half side size <input id="nPlainCircleSize" type="text" value="10" oninput="updateTotal()" /> = <input id="nPlainCircles"  disabled="true" type="text" value="100" /> </div>
                     <div>Polygons half side size <input id="nPolygonSize" type="text" value="10" oninput="updateTotal()" /> = <input id="nPolygons"  disabled="true" type="text" value="100" /></div>
                     <div>Total Objects = <input id="nTotal"  disabled="true" type="text" value="100" /></div>
                     <div><button type="button" onclick="refreshMap()">Refresh</button> <button type="button" onclick="cleanMap()">Clean</button> </div>
@@ -58,12 +59,17 @@
                 function updateTotal() {
                     var nMarkers = parseInt(document.getElementById("nMarkersSize").value);
                     var nCircle = parseInt(document.getElementById("nCircleSize").value);
+                    var nPlainCircle = parseInt(document.getElementById("nPlainCircleSize").value);
                     var nPolygon = parseInt(document.getElementById("nPolygonSize").value);
                     document.getElementById("nMarkers").value = nMarkers * nMarkers * 4;
                     document.getElementById("nCircles").value = nCircle * nCircle * 4;
+                    document.getElementById("nPlainCircles").value = nPlainCircle * nPlainCircle * 4;
                     document.getElementById("nPolygons").value = nPolygon * nPolygon * 4;
 
-                    document.getElementById("nTotal").value =  nMarkers * nMarkers * 4 + nCircle * nCircle * 4 + nPolygon * nPolygon * 4;
+                    document.getElementById("nTotal").value =  nMarkers * nMarkers * 4
+                            + nCircle * nCircle * 4
+                            + nPlainCircle * nPlainCircle * 4
+                            + nPolygon * nPolygon * 4;
 
                 }
 
@@ -71,10 +77,11 @@
 
                     var nMarkers = parseInt(document.getElementById("nMarkersSize").value);
                     var nCircle = parseInt(document.getElementById("nCircleSize").value);
+                    var nPlainCircle = parseInt(document.getElementById("nPlainCircleSize").value);
                     var nPolygon = parseInt(document.getElementById("nPolygonSize").value);
 
                     cleanMap();
-                    perfData = drawObjects(nMarkers, nCircle, nPolygon);
+                    perfData = drawObjects(nMarkers, nCircle, nPlainCircle, nPolygon);
                 }
                 updateTotal();
                 refreshMap();

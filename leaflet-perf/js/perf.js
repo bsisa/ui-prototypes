@@ -23,7 +23,7 @@ function removeLayers(perfData) {
 }
 
 
-function drawObjects(nMarkersSize, nCircleSize, nPolygonSize) {
+function drawObjects(nMarkersSize, nCircleSize, nPlainCircleSize, nPolygonSize) {
 
     var markerLayerGroup = new L.layerGroup();
 
@@ -45,6 +45,19 @@ function drawObjects(nMarkersSize, nCircleSize, nPolygonSize) {
 
     circleLayerGroup.addTo(map);
 
+    var plainCircleLayerGroup = new L.layerGroup();
+
+    for (var i = -nPlainCircleSize; i < nPlainCircleSize; i++)
+        for (var j = -nPlainCircleSize; j < nPlainCircleSize; j++)
+            L.circle([46.99162 + i/100 + 0.002, 6.93182 + j/100 - 0.002], 50, {
+                color: 'green',
+                fillColor: 'green',
+                opacity: 1,
+                fillOpacity: 1
+            }).addTo(plainCircleLayerGroup);
+
+    plainCircleLayerGroup.addTo(map);
+
 
     var polygonLayerGroup = new L.layerGroup();
 
@@ -65,12 +78,13 @@ function drawObjects(nMarkersSize, nCircleSize, nPolygonSize) {
         {
             "Markers":markerLayerGroup,
             "Circles":circleLayerGroup,
+            "Plain circles":plainCircleLayerGroup,
             "Polygons":polygonLayerGroup
         }
     ).addTo(map);
 
     return {
-        "layers":[markerLayerGroup, circleLayerGroup, polygonLayerGroup],
+        "layers":[markerLayerGroup, circleLayerGroup, plainCircleLayerGroup, polygonLayerGroup],
         "control":control
     }
 }
