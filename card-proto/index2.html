@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html ng-app="hb5-proto">
+<head>
+    <!-- META -->
+    <title>Hyperbird 5.0 - GesPatri</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/chosen/chosen.css" />
+    <link rel="stylesheet" type="text/css" href="css/chosen/chosen-spinner.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/kickstart/kickstart.css" media="all"/>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet/Leaflet.Coordinates-0.1.4.css" />
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <link rel="stylesheet" href="css/leaflet/Leaflet.Coordinates-0.1.4.ie.css" />
+    <![endif]-->
+
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="css/hb5.css" media="all"/>
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/kickstart/kickstart.js"></script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.7.0.js"></script>
+
+    <script src="js/chosen/chosen.jquery.js"></script>
+    <script src="js/chosen/chosen.js"></script>
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+    <script src="js/leaflet/leaflet-providers.js"></script>
+    <script src="js/leaflet/Leaflet.Coordinates-0.1.4.src.js"></script>
+
+    <script src="js/hb5-proto2.js"></script>
+
+</head>
+
+<body ng-controller="IndexCtrl">
+
+    <div id="map1" ng-show="showMap"></div>
+    <div id="map2" ng-show="showMap"></div>
+
+    <ul class="menu">
+        <li class="has-menu">
+            <a href="#"><i class="icon-map-marker"></i> Plans<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Plan 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Plan 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-list"></i> Collections<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Collection 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Collection 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-folder-open"></i> Exploitations<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Exploitations 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Exploitations 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-tasks"></i> Gestion<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Gestion 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Gestion 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-hdd"></i> Données<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Données 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Données 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-cogs"></i> Manager<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Manager 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Manager 2</a></li>
+            </ul>
+        </li>
+
+        <li class="has-menu">
+            <a href="#"><i class="icon-briefcase"></i> Métiers<span class="arrow">&nbsp;</span></a>
+            <ul>
+                <li class="first"><a href=""><span class="icon" data-icon="G"></span>Menu Métiers 1</a></li>
+                <li><a href=""><span class="icon" data-icon="G"></span>Menu Métiers 2</a></li>
+            </ul>
+        </li>
+
+        <li class="right col_3 search-wrapper">
+            <input class="search" type="text" placeholder="Recherche" />
+            <button class="blue small pill"><i class="icon-search"></i></button>
+            <button class="red small" ng-click="changeViewMode()"><i class="icon-desktop"></i></button>
+        </li>
+
+    </ul>
+
+
+
+    <div class="grid" ng-style="gridStyle">
+        <div class="col_12">
+            <div class="card clearfix">
+        <!-- Button Bar w/icons -->
+                <div class="col_8">
+                    <ul class="button-bar ">
+                        <li><a href=""><i class="icon-save"></i></a></li>
+                        <li><a href=""><i class="icon-copy"></i></a></li>
+                        <li><a href=""><i class="icon-trash"></i></a></li>
+                        <li><a href=""><i class="icon-paper-clip"></i></a></li>
+                        <li><a href=""><i class="icon-map-marker"></i></a></li>
+                        <li><a href=""><i class="icon-print"></i></a></li>
+                        <li><a href=""><i class="icon-cogs"></i></a></li>
+                        <li><a href=""><i class="icon-folder-open"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="col_4 right">
+                    <i class="icon-tag"></i> IMMEUBLE<br/>
+                    <i class="icon-folder-close"></i> G20040930101030005<br/>
+                    <i class="icon-file"></i> G20050725170559296
+                </div>
+                <div class="clear"></div>
+
+
+                <!-- Tabs Left -->
+                <ul class="tabs left">
+                    <li><a href="#tabBuildingIdentity">Identité</a></li>
+                    <li><a href="#tabBuildingAttributes">Caractéristiques</a></li>
+                    <li><a href="#tabBuildingIssues">Constats et Prestations</a></li>
+                    <li><a href="#tabBuildingContracts">Contrats</a></li>
+                    <li><a href="#tabBuildingEquipments">Equipements</a></li>
+                    <li><a href="#tabBuildingConsumption">Consommation</a></li>
+                    <li><a href="#tabBuildingAttachments">Annexes</a></li>
+                </ul>
+
+                <!-- Building Identity -->
+                <div id="tabBuildingIdentity" class="tab-content">
+
+                    <div class="col_4">
+                        <img class="caption" title="" src="./images/fbg-lac-3.png"/>
+                    </div>
+
+                    <div class="col_4">
+                        <h5>Identification</h5>
+                        <form class="vertical">
+                            <label for="buildingGerance">Gérance</label>
+                            <input id="buildingGerance" type="text">
+                            <label for="buildingNoECAP">No ECAP</label>
+                            <input id="buildingNoECAP" type="text">
+                            <label for="buildingNoConstruction">No Construction</label>
+                            <input id="buildingNoConstruction" type="text">
+                            <label for="buildingGroupe">Groupe</label>
+                            <input id="buildingGroupe" type="text">
+                            <label for="buildingAdresse">Adresse</label>
+                            <input id="buildingAdresse" type="text">
+                            <label for="buildingNoCadastral">No Cadastral</label>
+                            <input id="buildingNoCadastral" type="text">
+                            <label for="buildingLieuDit">Lieu-dit</label>
+                            <input id="buildingLieuDit" type="text">
+                        </form>
+                    </div>
+
+                    <div class="col_4">
+                        <h5>Partenaires</h5>
+                        <form class="vertical">
+                            <label for="buildingOwnerName">Propriétaire <a href=""><i class="icon-plus-sign"></i></a></label>
+                            <select chosen id="buildingOwnerName">
+                                <option value="A">Partenaire A</option>
+                                <option value="B">Partenaire B</option>
+                                <option value="C">Partenaire C</option>
+                                <option value="D">Partenaire D</option>
+                                <option value="D">Partenaire E</option>
+                                <option value="D">Partenaire F</option>
+                                <option value="D">Partenaire G</option>
+                                <option value="D">Partenaire H</option>
+                                <option value="D">Partenaire I</option>
+                                <option value="D">Partenaire J</option>
+                                <option value="D">Partenaire K</option>
+                                <option value="D">Partenaire L</option>
+                                <option value="D">Partenaire M</option>
+                                <option value="D">Partenaire N</option>
+                                <option value="D">Partenaire O</option>
+                                <option value="D">Partenaire P</option>
+                                <option value="D">Partenaire Q</option>
+                                <option value="D">Partenaire R</option>
+                                <option value="D">Partenaire S</option>
+                                <option value="D">Partenaire T</option>
+                                <option value="D">Partenaire U</option>
+                                <option value="D">Partenaire V</option>
+                                <option value="D">Partenaire X</option>
+                                <option value="D">Partenaire Y</option>
+                                <option value="D">Partenaire Z</option>
+                            </select>
+
+                            <select chosen id="buildingOwnerCounty">
+                                <option value="NE">NE</option>
+                                <option value="BE">BE</option>
+                                <option value="VD">VD</option>
+                            </select>
+
+                            <label for="buildingArchitect">Architecte</label>
+                            <input id="buildingArchitect" type="text">
+
+                            <label for="buildingConcierge">Concierge</label>
+                            <select chosen id="buildingConcierge">
+                                <option value="A">Pierre Brunner 076 344 63 17 ou 078 508 68 95</option>
+                                <option value="B">Concierge B</option>
+                                <option value="C">Concierge C</option>
+                                <option value="D">Concierge D</option>
+                            </select>
+
+
+                            <label for="buildingRemarques">Remarques</label>
+                            <textarea style="resize: vertical;" id="buildingRemarques" placeholder="Remarques"></textarea>
+                        </form>
+                    </div>
+                </div>
+                <div id="tabBuildingAttributes" class="tab-content">
+                    <form class="vertical">
+                        <div class="col_6">
+                            <h5>Caractéristiques</h5>
+                            <label for="buildingFunction">Fonction actuelle</label>
+                            <select chosen id="buildingFunction">
+                                <option value="A">Bureau</option>
+                                <option value="B">Fonction B</option>
+                                <option value="C">Fonction C</option>
+                                <option value="D">Fonction D</option>
+                            </select>
+                            <label for="buildingConstructionYear">Année de construction</label>
+                            <div class="form_datepicker">
+                                <input id="buildingConstructionYear" type="text" view-mode="years"
+                                       datepicker-popup="yyyy" ng-model="buildingConstructionYear" is-open="cyOpened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Fermer" >
+                                <button class="btn" ng-click="opency()"><i class="icon-calendar"></i></button>
+                            </div>
+
+
+
+                            <label for="buildingExitYear">Année de sortie</label>
+                            <div class="form_datepicker">
+                                <input id="buildingExitYear" type="text" datepicker-popup="yyyy" ng-model="buildingExitYear" is-open="eyOpened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Fermer" >
+                                <button class="btn" ng-click="openey()"><i class="icon-calendar"></i></button>
+                            </div>
+
+                            <label for="buildingExitReason">Cause de sortie</label>
+                            <select chosen id="buildingExitReason">
+                                <option value="A"></option>
+                                <option value="B">Raison B</option>
+                                <option value="C">Raison C</option>
+                                <option value="D">Raison D</option>
+                            </select>
+                            <label for="buildingInventoryRank">Note de recensement</label>
+                            <input id="buildingInventoryRank" type="number" value="7">
+                            <label for="buildingApartmentNumber">Nombre de logement</label>
+                            <input id="buildingApartmentNumber" type="number" value="0">
+                            <label for="buildingClassroomNumber">Nombre de classes</label>
+                            <input id="buildingClassroomNumber" type="number" value="0">
+                            <label for="buildingWorkplaceNumber">Nombre de places de travail</label>
+                            <input id="buildingWorkplaceNumber" type="number" value="0">
+
+                        </div>
+
+                        <div class="col_6">
+                            <h5>Valeur</h5>
+                            <label for="buildingECAPValue">Valeur ECAP</label>
+                            <input id="buildingECAPValue" type="number">
+                            <label for="buildingECAPYear">Année estimation ECAP <span class="right">aaaa</span></label>
+                            <input id="buildingECAPYear" type="number">
+
+                            <label for="buildingRegisterValue">Valeur cadastrale</label>
+                            <input id="buildingRegisterValue" type="number">
+                            <label for="buildingRegisterYear">Année estimation cadastrale <span class="right">aaaa</span></label>
+                            <input id="buildingRegisterYear" type="number">
+
+                            <h5>Coefficients dimensionnels</h5>
+                            <label for="buildingGroundSurface">Surface au sol</label>
+                            <input id="buildingGroundSurface" type="text">
+                            <label for="buildingECAPVolume">Volume ECAP</label>
+                            <input id="buildingECAPVolume" type="text">
+                            <label for="buildingSRE">SRE (m2)</label>
+                            <input id="buildingSRE" type="text">
+                        </div>
+
+
+                    </form>
+                </div>
+                <div id="tabBuildingIssues" class="tab-content">
+
+                    <div class="col_8">
+                        <h5>Constats</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouveau</a></li>
+                            <li><a href=""><i class="icon-list"></i> Traités</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead><tr>
+                            <th class="center">Etage Locataire</th>
+                            <th class="center">Libellé</th>
+                            <th class="center">Devis</th>
+                            <th class="center">Délai</th>
+                            <th class="center">Resp.</th>
+                            <th></th>
+                        </tr></thead>
+                        <tbody><tr>
+                            <td>Item1</td>
+                            <td>Item1</td>
+                            <td class="right">1000</td>
+                            <td class="center">2009-10-11</td>
+                            <td class="center">PC</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr><tr>
+                            <td>Item2</td>
+                            <td>Item2</td>
+                            <td class="right">3000</td>
+                            <td class="center">2009-09-11</td>
+                            <td class="center">PHB</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr><tr>
+                            <td>Item3</td>
+                            <td>Item3</td>
+                            <td class="right">2000</td>
+                            <td class="center">2008-09-11</td>
+                            <td class="center">PHB</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr><tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td class="right">500</td>
+                            <td class="center">2007-10-11</td>
+                            <td class="center">PC</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr></tbody>
+                    </table>
+
+                    <hr/>
+
+                    <div class="col_8">
+                        <h5>Budgets</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouveau</a></li>
+                            <li><a href=""><i class="icon-list"></i> Ant.</a></li>
+                        </ul>
+                    </div>
+
+                    <table>
+                        <thead><tr>
+                            <th class="center">2014</th>
+                            <th class="center">2013</th>
+                            <th class="center">2012</th>
+                            <th class="center">2011</th>
+                        </tr></thead>
+                        <tbody><tr>
+                            <td class="center"><button class="blue">Investissement</button></td>
+                            <td class="center"><button class=" blue">Investissement</button></td>
+                            <td class="center"><button class=" blue">Investissement</button></td>
+                            <td class="center"><button class=" blue">Investissement</button></td>
+                        </tr><tr>
+                            <td class="center"><button class=" orange">Fonctionnement</button></td>
+                            <td class="center"><button class=" orange">Fonctionnement</button></td>
+                            <td class="center"><button class=" orange">Fonctionnement</button></td>
+                            <td class="center"><button class=" orange">Fonctionnement</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div id="tabBuildingContracts" class="tab-content">
+                    <div class="col_8">
+                        <h5>Contrats d'entretien</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouveau</a></li>
+                            <li><a href=""><i class="icon-list"></i> Echus</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead><tr>
+                            <th class="center">Prestation I</th>
+                            <th class="center">Prestation II</th>
+                            <th class="center">Entreprise</th>
+                            <th class="center">Montant</th>
+                            <th></th>
+                        </tr></thead>
+                        <tbody><tr>
+                            <td>Item1</td>
+                            <td>Item1</td>
+                            <td>Entreprise A</td>
+                            <td class="right">2000</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr><tr>
+                            <td>Item2</td>
+                            <td>Item2</td>
+                            <td>Entreprise B</td>
+                            <td class="right">3000</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr><tr>
+                            <td>Item3</td>
+                            <td>Item3</td>
+                            <td>Entreprise A</td>
+                            <td class="right">2000</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Item4</td>
+                            <td>Entreprise C</td>
+                            <td class="right">500</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div id="tabBuildingEquipments" class="tab-content">
+                    <div class="col_8">
+                        <h5>Production de chaleur</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouvelle</a></li>
+                            <li><a href=""><i class="icon-link"></i> Joindre</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Modèle</th>
+                            <th class="center">Année</th>
+                            <th class="center">Puissance</th>
+                            <th class="center">Energie</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Item1</td>
+                            <td class="center">1980-10-01</td>
+                            <td class="right">2000</td>
+                            <td>Chauffage à distance</td>
+                            <td>Chauffage des Terreaux</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr/>
+                    <div class="col_8">
+                        <h5>Citerne</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouvelle</a></li>
+                            <li><a href=""><i class="icon-link"></i> Joindre</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Modèle</th>
+                            <th class="center">Année</th>
+                            <th class="center">Volume</th>
+                            <th class="center">Produit</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Item1</td>
+                            <td class="center">1980-10-01</td>
+                            <td class="right">2000</td>
+                            <td>Mazout</td>
+                            <td>Aldo D'Abbraccio</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <hr/>
+                    <div class="col_8">
+                        <h5>Production de froid</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouvelle</a></li>
+                            <li><a href=""><i class="icon-link"></i> Joindre</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Modèle</th>
+                            <th class="center">Année</th>
+                            <th class="center">Puissance</th>
+                            <th class="center">Energie</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Froid polaire</td>
+                            <td class="center">1980-10-01</td>
+                            <td class="right">2000</td>
+                            <td></td>
+                            <td>Cofely SA</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr/>
+                    <div class="col_8">
+                        <h5>Ventilation</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouvelle</a></li>
+                            <li><a href=""><i class="icon-link"></i> Joindre</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Modèle</th>
+                            <th class="center">Année</th>
+                            <th class="center">Débit (m3/h)</th>
+                            <th class="center">Energie</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td></td>
+                            <td class="center">1955-10-01</td>
+                            <td class="right">25</td>
+                            <td>Pulsion</td>
+                            <td>Axair Kobra SA</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr/>
+                    <div class="col_8">
+                        <h5>Equipement</h5>
+                    </div>
+                    <div class="col_4 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouveau</a></li>
+                            <li><a href=""><i class="icon-link"></i> Joindre</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Modèle</th>
+                            <th class="center">Année</th>
+                            <th class="center">Dimension</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Un équipement</td>
+                            <td class="center">1955-10-01</td>
+                            <td class="right">25</td>
+                            <td>Axair Kobra SA</td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div id="tabBuildingConsumption" class="tab-content">
+                    <div class="col_12 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Nouvelle introduction</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Classe</th>
+                            <th class="center">Nom</th>
+                            <th class="center">Localisation</th>
+                            <th class="center">No Compteur</th>
+                            <th class="center">Fournisseur</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>INTRODUCTION_ELECTRICITE</td>
+                            <td>Compteur de jour</td>
+                            <td>Sous-sol</td>
+                            <td>427'125'4620</td>
+                            <td></td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>INTRODUCTION_ELECTRICITE</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="right"><a href=""><i class="icon-zoom-in"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div id="tabBuildingAttachments" class="tab-content">
+                    <div class="col_12 right">
+                        <ul class="button-bar">
+                            <li><a href=""><i class="icon-plus-sign"></i> Ajouter</a></li>
+                        </ul>
+                    </div>
+                    <table class="striped sortable">
+                        <thead>
+                        <tr>
+                            <th class="center">Nom</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a href="">CEG_amiante.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">MaxMeuron6_ContratEcap.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">Photo</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">Max.-Meuron 6_FR1.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">Max.-Meuron 6_FR2.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">Ascenseur_analyse_MaxMeuron 6</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">MonteCharge_analyse_MaxMeuron.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="">MaxMeuron6_contratEcap_2013.pdf</a></td>
+                            <td class="right"><a href=""><i class="icon-minus-sign"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- End Grid -->
+</body>
+</html>
