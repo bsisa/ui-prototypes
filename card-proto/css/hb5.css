@@ -163,6 +163,27 @@ form.vertical .form_datepicker input {
     top: 44px;
     right: 0;
     bottom: 0;
-    left: 0;
-    z-index: -1;
+    left: 736px;
+    margin: 10px;
+    border: solid 1px whitesmoke;
+}
+
+#map1 {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    bottom: 49%;
+    left: 736px;
+    margin: 10px;
+    border: solid 1px whitesmoke;
+}
+
+#map2 {
+    position: absolute;
+    top: 51%;
+    right: 0;
+    bottom: 0;
+    left: 736px;
+    margin: 10px;
+    border: solid 1px whitesmoke;
 }

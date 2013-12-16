@@ -14,8 +14,11 @@
     <link rel="stylesheet" type="text/css" href="css/kickstart/kickstart.css" media="all"/>
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet/Leaflet.Coordinates-0.1.4.css" />
+
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <link rel="stylesheet" href="css/leaflet/Leaflet.Coordinates-0.1.4.ie.css" />
     <![endif]-->
 
 
@@ -33,7 +36,8 @@
     <script src="js/chosen/chosen.js"></script>
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
-    <script src="js/leaflet-providers.js"></script>
+    <script src="js/leaflet/leaflet-providers.js"></script>
+    <script src="js/leaflet/Leaflet.Coordinates-0.1.4.src.js"></script>
 
     <script src="js/hb5-proto.js"></script>
 
@@ -41,7 +45,7 @@
 
 <body ng-controller="IndexCtrl">
 
-    <div id="map"></div>
+    <div id="map" ng-show="showMap"></div>
 
     <ul class="menu">
         <li class="has-menu">

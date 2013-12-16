@@ -54,18 +54,34 @@
             $scope.gridStyle = null;
             $scope.showMap = false;
 
-            var map = L.map('map', {zoomControl:false}).setView([46.99162, 6.93182], 13);
+            var map = L.map('map', {zoomControl:false}).setView([46.9915, 6.9293], 16);
             map.addControl(L.control.zoom({position:'topright'}));
 
             L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+                attribution: 'Powered by HperBird 5, Tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
             }).addTo(map);
+
+            L.control.coordinates({
+                position:"bottomright", //optional default "bootomright"
+                decimals:4, //optional default 4
+                decimalSeperator:".", //optional default "."
+                labelTemplateLat:"Latitude: {y}", //optional default "Lat: {y}"
+                labelTemplateLng:"Longitude: {x}", //optional default "Lng: {x}"
+                enableUserInput:true, //optional default true
+                useDMS:false, //optional default false
+                useLatLngOrder: true //ordering of labels, default false-> lng-lat
+            }).addTo(map);
+
 
             $scope.changeViewMode = function() {
                 if ( $scope.gridStyle === null) {
                     $scope.gridStyle = {"max-width":"768px", "margin":"0"};
+                    $scope.showMap = true;
+
                 } else {
                     $scope.gridStyle = null;
+                    $scope.showMap = false;
+
                 }
 
             }
